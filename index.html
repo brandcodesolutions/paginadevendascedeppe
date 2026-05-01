@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-book — Página de Vendas</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0c0c0c;
+      --bg-alt: #111111;
+      --orange: #d63b00;
+      --orange-light: #e84e10;
+      --white: #f5f5f5;
+      --muted: #999;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 72px 24px 60px;
+      gap: 32px;
+    }
+
+    .book-cover {
+      width: 220px;
+      aspect-ratio: 3/4;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .05em;
+    }
+
+    .book-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+    }
+
+    .hero-text { max-width: 640px; }
+
+    .label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--orange);
+      border: 1px solid var(--orange);
+      border-radius: 100px;
+      padding: 4px 14px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+
+    h1 span { color: var(--orange); }
+
+    .subtitle {
+      font-size: clamp(15px, 2vw, 18px);
+      color: #ccc;
+      margin-bottom: 32px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      padding: 16px 40px;
+      border-radius: 4px;
+      letter-spacing: .03em;
+      transition: background .2s;
+    }
+
+    .cta:hover { background: var(--orange-light); }
+
+    .cta-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ── BENEFITS ── */
+    .benefits {
+      background: var(--bg-alt);
+      padding: 64px 24px;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: clamp(22px, 3.5vw, 34px);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .section-title span { color: var(--orange); }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 48px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #181818;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 24px 20px;
+      text-align: left;
+    }
+
+    .card h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--orange);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: #bbb;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── OFFER ── */
+    .offer {
+      padding: 64px 24px;
+      text-align: center;
+    }
+
+    .price-box {
+      display: inline-block;
+      background: #141414;
+      border: 1px solid var(--orange);
+      border-radius: 10px;
+      padding: 36px 48px;
+      margin-top: 32px;
+    }
+
+    .price-from {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: line-through;
+      margin-bottom: 4px;
+    }
+
+    .price {
+      font-size: 52px;
+      font-weight: 900;
+      color: var(--orange);
+      line-height: 1;
+    }
+
+    .price sup { font-size: 22px; vertical-align: top; margin-top: 10px; }
+
+    .price-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+      margin-bottom: 28px;
+    }
+
+    .guarantee {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #aaa;
+      margin-top: 16px;
+    }
+
+    .guarantee span { font-size: 18px; }
+
+    /* ── FAQ ── */
+    .faq {
+      background: var(--bg-alt);
+      padding: 64px 24px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .faq-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .faq-item:first-of-type { border-top: 1px solid #1e1e1e; }
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 600;
+      text-align: left;
+      padding: 18px 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .faq-question .icon {
+      color: var(--orange);
+      font-size: 20px;
+      font-weight: 300;
+      flex-shrink: 0;
+      transition: transform .25s;
+    }
+
+    .faq-question[aria-expanded="true"] .icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      font-size: 14px;
+      color: #bbb;
+      line-height: 1.7;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height .3s ease, padding .3s;
+    }
+
+    .faq-answer.open {
+      max-height: 300px;
+      padding-bottom: 18px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 36px 24px;
+      font-size: 12px;
+      color: #444;
+      border-top: 1px solid #1a1a1a;
+    }
+
+    footer p { margin-bottom: 4px; }
+
+    .footer-brand { color: #555; font-size: 12px; margin-bottom: 16px; }
+    .footer-brand a { color: var(--orange); text-decoration: none; font-weight: 600; }
+    .footer-brand a:hover { text-decoration: underline; }
+
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 4px;
+    }
+
+    .footer-social a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid #2a2a2a;
+      border-radius: 50%;
+      color: #666;
+      transition: color .2s, border-color .2s;
+    }
+
+    .footer-social a:hover { color: var(--orange); border-color: var(--orange); }
+
+    .footer-social svg { width: 16px; height: 16px; fill: currentColor; }
+
+    @media (max-width: 480px) {
+      .price-box { padding: 28px 24px; }
+      .price { font-size: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. HERO -->
+  <section class="hero">
+    <div class="book-cover">
+    <img src="image/e-book.png" alt="Capa do e-book">
+    </div>
+
+    <div class="hero-text">
+      <div class="label">E-book exclusivo</div>
+      <h1>Um guia para transformar <span>sua gestão</span> e elevar a qualidade dos resultados</h1>
+      <p class="subtitle">
+        Capacitação completa para diretores e coordenadores O programa busca aprimorar a gestão de equipes, a organização de processos e a capacidade de adaptação a cenários de mudança, fortalecendo uma atuação mais integrada, eficiente e alinhada às demandas institucionais e do mercado.
+
+      </p>
+      <a href="#oferta" class="cta">Quero o e-book agora</a>
+      <p class="cta-note">Acesso imediato após a confirmação do pagamento</p>
+    </div>
+  </section>
+
+  <!-- 2. BENEFÍCIOS -->
+  <section class="benefits">
+    <h2 class="section-title">O que você vai <span>aprender</span></h2>
+    <p class="section-sub">Conteúdo prático, direto e aplicável do primeiro ao último capítulo</p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Liderança estratégica</h3>
+        <p>Desenvolva habilidades de liderança para tomada de decisões mais assertivas e orientadas a resultados.</p>
+      </div>
+      <div class="card">
+        <h3>Gestão de equipes</h3>
+        <p>Gerencie pessoas com foco em engajamento, motivação e alta performance coletiva.</p>
+      </div>
+      <div class="card">
+        <h3>Melhoria de processos</h3>
+        <p>Organize e otimize processos internos para aumentar produtividade e elevar a qualidade das entregas.</p>
+      </div>
+      <div class="card">
+        <h3>Planejamento institucional</h3>
+        <p>Planeje e execute ações alinhadas às metas da organização com clareza e método.</p>
+      </div>
+      <div class="card">
+        <h3>Adaptação a mudanças</h3>
+        <p>Desenvolva resiliência e agilidade para atuar com eficiência em cenários complexos e de transformação.</p>
+      </div>
+      <div class="card">
+        <h3>Comunicação e conflitos</h3>
+        <p>Comunique-se com clareza e conduza a gestão de conflitos de forma construtiva no ambiente de trabalho.</p>
+      </div>
+      <div class="card">
+        <h3>Ferramentas de gestão</h3>
+        <p>Utilize ferramentas práticas para monitorar indicadores, acompanhar resultados e tomar decisões baseadas em dados.</p>
+      </div>
+      <div class="card">
+        <h3>Visão sistêmica</h3>
+        <p>Fortaleça a compreensão integrada da organização e do mercado para atuar com mais estratégia e contexto.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. OFERTA -->
+  <section class="offer" id="oferta">
+    <h2 class="section-title">Investimento <span>único</span></h2>
+    <p class="section-sub">Sem mensalidade. Seu e-book para sempre.</p>
+
+    <div class="price-box">
+      <p class="price-from">De R$ 97,00</p>
+      <div class="price"><sup>R$</sup>27</div>
+      <p class="price-note">pagamento único • acesso imediato</p>
+      <a href="#" class="cta" style="display:block; width:100%;">Garantir meu acesso</a>
+      <div class="guarantee">
+        <span>🛡</span> 7 dias de garantia — devolução sem perguntas
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. FAQ -->
+  <section style="background: var(--bg-alt); padding: 64px 24px;">
+    <div class="faq">
+      <div class="faq-header">
+        <h2 class="section-title">Perguntas <span>frequentes</span></h2>
+        <p class="section-sub">Tudo que você precisa saber antes de comprar</p>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Como recebo o e-book após a compra?
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Imediatamente após a confirmação do pagamento você recebe um e-mail com o link de download.
+          O arquivo está em PDF e pode ser acessado em qualquer dispositivo.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          O pagamento é seguro?
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Sim. O processo de pagamento utiliza criptografia SSL e é processado por plataformas
+          certificadas. Seus dados nunca ficam armazenados conosco.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          E se eu não gostar do conteúdo?
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Você tem 7 dias de garantia incondicional. Basta enviar um e-mail solicitando o reembolso
+          e devolveremos o valor integral — sem burocracia e sem perguntas.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Posso ler no celular ou tablet?
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Com certeza. O arquivo PDF funciona perfeitamente em smartphones, tablets, computadores
+          e leitores de e-book. Você pode ler onde e quando quiser.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Tenho acesso por quanto tempo?
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Para sempre. Após o download o arquivo é seu. Não há assinatura, renovação ou prazo
+          de expiração.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 CEDEPPE MENTORIAS. Todos os direitos reservados.</p>
+    <p class="footer-brand">Site criado por <a href="#" target="_blank" rel="noopener">BrandCode Solutions</a></p>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/cedeppeglobal/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.975.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.975-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.975-.975-1.246-2.242-1.308-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608C4.516 2.497 5.783 2.225 7.15 2.163 8.416 2.105 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.333.014 7.053.072 5.197.157 3.355.673 2.014 2.014.673 3.355.157 5.197.072 7.053.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.085 1.856.601 3.698 1.942 5.038 1.341 1.341 3.183 1.857 5.038 1.942C8.333 23.986 8.741 24 12 24s3.668-.014 4.948-.072c1.856-.085 3.698-.601 5.038-1.942 1.341-1.34 1.857-3.182 1.942-5.038C23.986 15.668 24 15.259 24 12c0-3.259-.014-3.667-.072-4.947-.085-1.856-.601-3.698-1.942-5.038C20.646.673 18.804.157 16.948.072 15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+        </svg>
+      </a>
+      <a href="https://www.linkedin.com/company/cedeppeoficial/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.974 1.974 0 1 1 0-3.948 1.974 1.974 0 0 1 0 3.948zm1.707 13.019H3.63V9h3.414v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.nextElementSibling;
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+        document.querySelectorAll('.faq-question').forEach(b => {
+          b.setAttribute('aria-expanded', 'false');
+          b.nextElementSibling.classList.remove('open');
+        });
+
+        if (!isOpen) {
+          btn.setAttribute('aria-expanded', 'true');
+          answer.classList.add('open');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
